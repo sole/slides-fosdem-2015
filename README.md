@@ -1,4 +1,4 @@
-# Introducing node-firefox
+# Superturbocharging Firefox OS app development with node-firefox
 > FOSDEM, Brussels, 1 February 2015
 
 ## View slides online
