@@ -1,0 +1,217 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    title Superturbocharging Firefox OS app development with node-firefox
+
+    link(rel='stylesheet', type='text/css', href='css/fira.css')
+    link(rel='stylesheet', type='text/css', href='build/build.css')
+
+  body
+    
+    img#tail(src='images/background.png')
+
+    article
+
+      section
+        h1.bullet Superturbocharging Firefox OS app development with <tt>node-firefox</tt><br />🚀🚀🚀🚀🚀🚀🚀
+        
+      section
+        h2.bullet Soledad Penadés
+        h3.bullet was: Apps Engineer<span class="bullet"><br />now: Tech Evangelism at Mozilla</span>
+        ul
+          li @supersole
+          li #devrel / #apps / #devtools in irc.mozilla.org
+          li Based in London, so ~11-20h GMT
+
+      section
+        h1.bullet WebIDE
+        img(src='images/webide.png', style='width: 450px; height: auto')
+
+      section
+        h1.bullet WebIDE
+        ul
+          li In Firefox release now!
+          li Get started in creating apps quickly
+          li Helps you install simulators
+          li Launch apps in runtimes
+        p(class='bullet', style='text-align: left; width:100%; padding: 1rem 0')
+          img(src='images/cool.gif', style='width: 200px; height: auto')
+
+      section
+        h1.bullet But... <span class="bullet">what if you want to build more complex apps, using Browserify, Coffee Script, or...?</span>
+
+      section
+        h1.bullet You need a build step
+        ul
+          li Leave WebIDE
+          li Go to the command line
+          li Call your build toolchain
+          li Back to WebIDE to deploy
+
+
+      section
+        h1.bullet THIS IS NOT EFFICIENT
+
+      section
+        h2.bullet We are engineers<span class="bullet">, and</span>
+        h1.bullet ENGINEERS OPTIMISE
+
+      section
+        h1.bullet How can we<br />make this efficient?
+
+      section
+        h1.bullet What could we<br />automate here?
+        ul
+          li We already have a build script
+          li What's left is deploying
+          li That's what we're using WebIDE for...
+          li Can we do that programmatically...
+          li ... with our build script?
+
+      section
+        h1.bullet Every Firefox runtime has a debugger server
+
+      section
+        h1.bullet Clients connect to the server to use its functionalities
+        h2.bullet WebIDE is a client
+
+      section
+        h1.bullet Each of these functionalities is provided by an <tt>actor</tt>
+
+      section
+        h2.bullet Example:
+        h1.bullet list the installed apps
+        ul
+          li find the <tt>webApps</tt> actor
+          li then run the <tt>getAll</tt> command
+          li and get a list of apps in response
+
+      section
+        h2.bullet Another example:
+        h1.bullet installing an app
+        ul
+          li zip the app contents
+          li find the <tt>webApps</tt> actor
+          li call the <tt>uploadPackage</tt> command in the actor, with the zip
+          li (the <tt>uploadPackage</tt> command returns a File actor)
+          li call the <tt>install</tt> command in the actor using the results of the previous call
+          li done!
+      
+      section
+        h1.bullet We can do that too!
+        h2.bullet We just need to establish a TCP connection to the debugger port and we're done, just need to parse a few packets here and there \o/
+
+
+      section(data-bespoke-fullscreenbackground='images/AAAAAH.gif', data-bespoke-state='oneliner')
+        h1 EWWW PARSE PACKETS WHAT NO I WANT TO WRITE JAVASCRIPT
+        
+      section
+        h1.bullet Us too!
+
+      section
+        h1.bullet <tt><a href="https://github.com/mozilla/node-firefox">node-firefox</a></tt>
+        h2.bullet node.js modules to interact with debugging servers <span class="bullet"><br />=== build and run your app without ever leaving the command line!</span>
+
+      section
+        h1.bullet Starting a simulator?
+        pre.bullet
+          code.language-javascript.
+            var startSimulator
+              = require('node-firefox-start-simulator');
+
+            startSimulator({ version: '2.2' })
+              .then(function(simu) {
+                console.log('Listening in port', simu.port);
+              });
+
+      section(data-bespoke-fullscreenbackground='images/tableflip.gif', data-bespoke-state='oneliner')
+        h1.bullet DEMO TIME
+
+      section
+        h2.bullet Example 1:
+        h1.bullet Starting a simulator, installing and launching an app
+
+      section
+        h2.bullet Example 2:
+        h1.bullet Building an app with Browserify, installing it and reloading on CSS changes, using Gulp as task runner
+
+      section
+        h1.bullet What works today?
+        ul
+          li find-ports
+          li find-simulators
+          li start-simulator
+          li connect
+          li find-app
+          li install-app
+          li launch-app
+          li reload-css
+
+      section
+        h1.bullet Philosophy
+
+      section
+        h2.bullet Deliberately simple
+        ul
+          li one module per action
+          li only promises, no callbacks AND promises
+          li as few dependencies as possible
+          
+      section
+        h2.bullet Consistent
+        ul
+          li if you know how to use a module, you know how to use the rest
+
+      section
+        h1.bullet Dream ideas
+        h2.bullet (or: what we can't do yet)
+
+      section
+        h1.bullet Dream ideas
+        ul
+          li "WebCLI" - a command line WebIDE equivalent
+          li Launch the Firefox debugger on exceptions
+          li Control/debug <em>any</em> browser with Valence
+      
+      section
+        h1.bullet Sole's dream idea:
+        h2.bullet Firefox OS custom editions
+        h3.bullet Custom builds generated with a script! 
+        ul
+          li selected apps
+          li settings
+          li shareable
+          li remixable!
+
+      section
+        h1.bullet How do we get there?
+        ul
+          li Better multiplatform support
+          li Better testing
+          li More modules: console, logs, screenshot, etc.
+          li More examples: optimising assets before installing, instant app manifest validation...
+          li You!
+          li We're not you, so we can't see or do things the way you do
+
+      section
+        h1.bullet Contribute!
+        h3.bullet <a href="https://github.com/mozilla/node-firefox">github.com/mozilla/node-firefox</a>
+
+      section
+        h1.bullet Breaking news
+        h2.bullet As of this week you can have WebIDE run a pre-deploy script
+        h3.bullet But you still cannot do all that <tt>node-firefox</tt> can!
+
+      section
+        h1.bullet Please don't ask questions yet.
+        h2.bullet Play with the project first 😎
+
+      section
+        h1 Thanks!
+        h2 @supersole
+        h3 <a href="http://soledadpenades.com">soledadpenades.com</a>
+
+     
+    script(src='build/build.js')
